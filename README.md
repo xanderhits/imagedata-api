@@ -9,6 +9,8 @@ Returns all images
 `GET /data/update/`
 Refresh the source file. Download a new copy and parse it.
 
+Requests are formatted as inspired by [Google's JSON styleguide](https://google-styleguide.googlecode.com/svn/trunk/jsoncstyleguide.xml).
+
 **Successful request example**
 ```
 {
