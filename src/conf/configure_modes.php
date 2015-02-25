@@ -12,7 +12,7 @@ $app->configureMode('test', function () use ($app) {
     ));
 });
 
-/* Deployment */
+/* Development */
 $app->configureMode('development', function () use ($app) {
     $app->config(array(
         'log.enabled' => true,

@@ -3,7 +3,9 @@
  * Routes for errors
  */
 
-/* Generic error handler */
+/**
+ * Generic error handler
+ */
 $app->error(function (\Exception $e) use ($app) {
     echo json_encode(array(
         'success' => false,
@@ -11,7 +13,9 @@ $app->error(function (\Exception $e) use ($app) {
     ));
 });
 
-/* 404 not found handler */
+/**
+ * 404 not found handler
+ */
 $app->notFound(function () use ($app) {
     echo json_encode(array(
         'success' => false,

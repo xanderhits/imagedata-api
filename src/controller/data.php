@@ -1,6 +1,7 @@
 <?php
 /**
- * Route /data/update
+ * Controller for route /data/update
+ *
  * - Download the CSV from source
  * - Parse it, filtering faulty lines
  * - Save it to JSON on disk for fast serving

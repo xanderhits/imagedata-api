@@ -18,12 +18,12 @@ $app = new Slim\Slim(array(
 ));
 
 /* Mode-specific configrations */
-include('conf/configure_modes.php');
+require 'conf/configure_modes.php';
 
 /* Various controllers */
-include('controller/error.php');
-include('controller/images.php');
-include('controller/data.php');
+require 'controller/error.php';
+require 'controller/images.php';
+require 'controller/data.php';
 
 $app->response->headers->set('Content-Type', 'application/json');
 $app->run();
