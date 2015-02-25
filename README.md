@@ -56,6 +56,8 @@ Faulty requests are handled by returning a JSON object with status: error and a 
 In test/development modes, exceptions will be output as HTML in the browser including stacktrace.
 In acceptance/production modes, a user-friendly JSON will be shown.
 
+Errors are logged with a certain level (debug, info, warning, error and so forth). Depending on the deployment config (`conf/configure_modes.php`) we can set the minimum log level. Errors are written to `php://stderr`.
+
 ## DTAP ##
 `conf/config.{deploymentType}.php` is included based on the deployment mode (if it exists). Other DTAP-specific settings are set in `conf/configure_modes.php` (logs enabled, log levels and debug mode).
 
