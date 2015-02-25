@@ -19,7 +19,7 @@ if(file_exists($mode_config_file))
 /* Initiate Slim */
 $app = new Slim\Slim(array(
     'mode' => MODE,
-    'settings' => $config
+    'settings' => $settings
 ));
 
 include('conf/configure_modes.php');

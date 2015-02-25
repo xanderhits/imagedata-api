@@ -1,3 +1,4 @@
 doc/
 src/conf/config.local.php
 src/data/img/
+src/data/data.json

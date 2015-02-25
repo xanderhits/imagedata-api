@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Route /data/update
  * - Download the CSV from source
@@ -12,12 +11,13 @@ $app->get('/data/update', function() use ($app) {
     /* Can we even download this CSV? */
     if($csv = file_get_contents($settings['datasource'])) {
         /* Apparently. Let's parse it. */
-        $content = \KzykHys\CsvParser\CsvParser::fromString($csv)->parse();
+        $data = \KzykHys\CsvParser\CsvParser::fromString($csv)->parse();
+        $parsed = parseCsv($data, $app);
 
         try {
-            /* Save our new data file to local disk. */
+            /* Save the valid lines to a data.json file in order to serve to users. */
             $open = fopen($settings['data_dir'] . 'data.json', 'w+');
-            fputs($open, json_encode($content));
+            fputs($open, json_encode($parsed['valid']));
             fclose($open);
 
             $app->log->notice('Updated data.json');
@@ -25,7 +25,7 @@ $app->get('/data/update', function() use ($app) {
             $body = array(
                 'success' => true,
                 'message' => null,
-                'data' => $content
+                'data' => $parsed
             );
 
             echo json_encode($body);
@@ -54,12 +54,14 @@ $app->get('/data/update', function() use ($app) {
  * - Name or URL field is empty.
  * In these cases, the entry is skipped.
  *
- * Some lines can easily be fixed:
- * - Truncate leading and trailing apostrophes
- * - Break off descriptions that are too long with ellipsis
- * - Convert newlines to <br> tags?
+ * Furthermore, we should break off descriptions that are too long.
+ * In addition, we might want to parse htmlspecialchars() or, alternatively, convert nl2br's
+ * (depending on if HTML is allowed in the mobile app or not). Since the assignment was not clear
+ * on this, neither was implemented.
  */
 function parseCsv($data, $app) {
+    $settings = $app->config('settings');
+
     $valid = array();
     $invalid = array();
 
@@ -81,8 +83,13 @@ function parseCsv($data, $app) {
         /* Image URL was invalid. */
         $img = storeImage($d[2], $app);
         if(!$img) {
-            $invalid[$i] = 'Image could not be downloaded or was not valid!';
+            $invalid[$i] = 'Image could not be downloaded, was not a valid image type or was too large!';
             continue;
+        }
+
+        /* Check if name field is too long, otherwise break it off */
+        if(strlen($d[0]) > $settings['images']['max_desc_length']) {
+            $d[0] = substr($d[0], 0, $settings['images']['max_desc_length']) . '...';
         }
 
         /* Everything's fine. Add! */
@@ -109,9 +116,11 @@ function storeImage($url, $app) {
     $settings = $app->config('settings');
     $local_path = $settings['images']['imgdir_path'];
     $filename = basename($url);
+    $local_file = $local_path . $filename;
 
+    /* Attempt the download. */
     try {
-        $copied = copy($url, $local_path . $filename);
+        $copied = copy($url, $local_file);
     }
     catch(ErrorException $e) {
         $app->log->warn('The following image could not be downloaded for local storage: ' . $url);
@@ -119,17 +128,35 @@ function storeImage($url, $app) {
         return false;
     }
 
+    /* Success: let's read it first and check if file type is acceptable. */
     $app->log->debug('Downloaded and stored image with URL ' . $url);
 
-    /* We have the image downloaded, now lets check its header if it's even an image */
+    $mime = get_file_type($local_file);
+    $size = filesize($local_file);
+
+    /* If type is not acceptable or size is too large, this is not a valid image. */
+    if(
+        (!in_array($mime, $settings['images']['valid_image_headers'])) ||
+        ($size > $settings['images']['max_filesize'])
+    ) {
+        $app->log->debug('Downloaded file was not proper type or too large, deleting...');
+        unlink($local_file);
+
+        return false;
+    }
+
+    $app->log->debug('File passed checks. Adding.');
+
     return $settings['images']['imgdir_url'] . $filename;
 }
 
-$app->get('/data/test', function() use ($app) {
-    $settings = $app->config('settings');
+/**
+ * Retrieve file info
+ */
+function get_file_type($path) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $path);
+    finfo_close($finfo);
 
-    $csv = file_get_contents($settings['datasource']);
-    $data = \KzykHys\CsvParser\CsvParser::fromString($csv)->parse();
-
-    var_dump(parseCsv($data, $app));
-});
+    return $mime;
+}
