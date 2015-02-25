@@ -1,5 +1,7 @@
 <?php
-/* Mode-specific functionality */
+/**
+ * Mode-specific configuration can be set here.
+ */
 
 /* Test */
 $app->configureMode('test', function () use ($app) {

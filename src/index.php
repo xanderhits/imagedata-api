@@ -6,15 +6,10 @@
  * between an unreliable source CSV file and a (reliable) JSON translation of it.
  */
 require 'vendor/autoload.php';
-require 'conf/config.global.php';
+require 'conf/config.php';
 
 /* Set this to development, test, acceptance or production. */
 define('MODE', 'development');
-
-/* Include mode-specific configuration */
-$mode_config_file = 'config/config' . MODE . '.php';
-if(file_exists($mode_config_file))
-    include($mode_config_file);
 
 /* Initiate Slim */
 $app = new Slim\Slim(array(
@@ -22,6 +17,7 @@ $app = new Slim\Slim(array(
     'settings' => $settings
 ));
 
+/* Mode-specific configrations */
 include('conf/configure_modes.php');
 
 /* Various controllers */

@@ -1,5 +1,4 @@
 <?php
-
 /* Route for /images/index
  * Retrieve the JSON data file and pass it to the user. */
 $app->get('/images', function() use ($app) {
@@ -23,5 +22,3 @@ $app->get('/images', function() use ($app) {
         throw new ErrorException($e->getMessage());
     }
 });
-
-

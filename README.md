@@ -65,7 +65,7 @@ In acceptance/production modes, a user-friendly JSON will be shown.
 Errors are logged with a certain level (debug, info, warning, error and so forth). Depending on the deployment config (`conf/configure_modes.php`) we can set the minimum log level. Errors are written to `php://stderr`.
 
 ## DTAP ##
-`conf/config.{deploymentType}.php` is included based on the deployment mode (if it exists). Other DTAP-specific settings are set in `conf/configure_modes.php` (logs enabled, log levels and debug mode).
+`conf/configure_modes.php` contains various configuration settings based on the deployment mode. These include log enabling, minimum level for logging, debug mode on (i.e. show stack traces or just show generic JSON error message) and any other additional info.
 
 ## Libraries and dependancies ##
 Composer is used as dependancy manager. It manages and autoloads the Slim framework and a [custom CSV parser for PHP](https://github.com/kzykhys/PHPCsvParser). This is done as the regular PHP `fgetcsv` function has some issues (see PHPCsvParser page for more information).
