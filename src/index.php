@@ -25,6 +25,7 @@ $app = new Slim\Slim(array(
 include('conf/configure_modes.php');
 
 /* Various controllers */
+include('controller/error.php');
 include('controller/images.php');
 include('controller/data.php');
 

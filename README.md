@@ -30,6 +30,14 @@ Requests are formatted as inspired by [Google's JSON styleguide](https://google-
 	"message": "derpaderp!"
 }
 ```
+
+## Data integrity ##
+The source CSV file may contain faulty entries. As the assignment was not specific in *how* these faulty lines are defined, I have used the following cases.
+1. A field does not contain enough fields (i.e. less than 3)
+2. A field contains too many fields (i.e. more than 3)
+3. The name or URL fields are empty (description is optional).
+4. The image is not valid: image could not be successfully downloaded or was not even an image at all
+
 ## Performance ##
 Micro-framework usage. How do we store our local copy of the database. File database, plain CSV file (fastest but least flexible), relational database?
 Cached files are stored on the local disk.
