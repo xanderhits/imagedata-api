@@ -6,7 +6,11 @@ $app->get('/images', function() use ($app) {
 
     /* Try retrieving the file and displaying it. */
     try {
-        $data = file_get_contents($settings['data_dir'] . 'data.json');
+        $file = $settings['data_dir'] . 'data.json';
+        $data = file_get_contents($file);
+        $modified = filemtime($file);
+
+        $app->lastModified($modified);
 
         $output = array(
             'status' => 'success',

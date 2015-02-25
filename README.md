@@ -49,6 +49,7 @@ After calling `/data/update`, the user will be presented with a JSON object that
 1. Use of a lightweight microframework, having a small memory footprint.
 2. Write the 'database' to local disk in a JSON file. Local disk has far better performance than a SQL or noSQL database, and in this case does not require its flexibility or power.
 3. Serve all image files from a single host.
+4. The `/images` request uses response caching based on the last modified date of the JSON file - i.e. the last time the database was updated.
 
 ## Exception handling ##
 Faulty requests are handled by returning a JSON object with status: error and a message:
