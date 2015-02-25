@@ -15,17 +15,23 @@ Requests are formatted as inspired by [Google's JSON styleguide](https://google-
 	"status": "success",
 	"message": null,
 	"data":
-	{
-		{"Title1","desc1", "url1"},
-		{"Title2","desc2", "url2"}
-	}
+	[
+		{
+			"title": "Item 1",
+			"description": "Description 1",
+			"image": "http:\/\/url.to.api\/data\/img\/10438039923_2ef6f68348_c.jpg"
+		},
+		{
+			...
+		}
+	]
 }
 ```
 **Faulty request example**
 ```
 {
 	"status": "false",
-	"message": "derpaderp!"
+	"message": "Something went wrong!"
 }
 ```
 

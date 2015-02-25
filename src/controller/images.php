@@ -9,7 +9,13 @@ $app->get('/images', function() use ($app) {
     try {
         $data = file_get_contents($settings['data_dir'] . 'data.json');
 
-        echo $data;
+        $output = array(
+            'status' => 'success',
+            'message' => null,
+            'data' => json_decode($data)
+        );
+
+        echo json_encode($output);
     }
     catch(ErrorException $e) {
         $app->log->warning("Could not open the data file: " . $e->getMessage());
