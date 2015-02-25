@@ -1,10 +1,10 @@
 # imagedata-api
 
 ## API calls ##
-`GET /images/`
+`GET /images`
 Returns all images.
 
-`POST /data/update/`
+`POST /data/update`
 Refresh the source file. Download a new copy, parse it (filter faulty lines) and save it to disk in JSON format, ready to serve. In case of success, also serves the new data file in full.
 
 Requests are formatted as inspired by [Google's JSON styleguide](https://google-styleguide.googlecode.com/svn/trunk/jsoncstyleguide.xml).
