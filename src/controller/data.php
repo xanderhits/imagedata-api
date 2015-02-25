@@ -5,7 +5,7 @@
  * - Parse it, filtering faulty lines
  * - Save it to JSON on disk for fast serving
  */
-$app->get('/data/update', function() use ($app) {
+$app->post('/data/update', function() use ($app) {
     $settings = $app->config('settings');
 
     /* Can we even download this CSV? */

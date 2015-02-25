@@ -2,6 +2,5 @@
     "require": {
         "slim/slim": "~2.5",
         "kzykhys/php-csv-parser": ">1.4",
-        "phpunit/phpunit": "4.5.*"
     }
 }
