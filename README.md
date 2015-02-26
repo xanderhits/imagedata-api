@@ -71,4 +71,4 @@ Errors are logged with a certain level (debug, info, warning, error and so forth
 ## Libraries and dependencies ##
 Composer is used as dependency manager. It manages and autoloads the Slim framework and a [custom CSV parser for PHP](https://github.com/kzykhys/PHPCsvParser). This is done as the regular PHP `fgetcsv` function has some issues (see PHPCsvParser page for more information).
 
-Other dependancies are: `copy` must be able to retrieve a remote URL (`allow_url_fopen` must be set to true in the PHP configuration), `Fileinfo` plugin must be enabled in order to read if downloaded image is actually an image.
+Other dependencies are: `copy` must be able to retrieve a remote URL (`allow_url_fopen` must be set to true in the PHP configuration), `Fileinfo` plugin must be enabled in order to read if downloaded image is actually an image.
